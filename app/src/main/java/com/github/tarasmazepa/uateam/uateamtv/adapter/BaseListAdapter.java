@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 
@@ -14,9 +15,20 @@ public abstract class BaseListAdapter<Item> extends BaseAdapter {
     protected final List<Item> items;
     protected final LayoutInflater layoutInflater;
 
+    public BaseListAdapter(Context context) {
+        items = Lists.newArrayList();
+        layoutInflater = LayoutInflater.from(context);
+    }
+
     public BaseListAdapter(Context context, List<Item> items) {
-        this.layoutInflater = LayoutInflater.from(context);
-        this.items = Preconditions.checkNotNull(items);
+        this(context);
+        reload(items);
+    }
+
+    public void reload(List<Item> items) {
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
     }
 
     public Context getContext(){

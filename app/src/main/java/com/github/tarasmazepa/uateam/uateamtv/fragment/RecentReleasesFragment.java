@@ -1,11 +1,14 @@
 package com.github.tarasmazepa.uateam.uateamtv.fragment;
 
 import android.app.Activity;
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.activity.MainActivity;
@@ -25,10 +28,15 @@ import org.jsoup.select.Elements;
 
 import java.util.List;
 
-public class RecentReleasesFragment extends ListFragment {
+public class RecentReleasesFragment extends Fragment {
     private static final String TAG = RecentReleasesFragment.class.getSimpleName();
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+
+    private ListView listView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private BaseListAdapter<Release> listAdapter;
+    private boolean loading;
 
     public RecentReleasesFragment() {
         super();
@@ -50,10 +58,57 @@ public class RecentReleasesFragment extends ListFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (getListAdapter() == null) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        Log.d(TAG, "onCreate");
+        listAdapter = new BaseListAdapter<Release>(getActivity()) {
+            @Override
+            protected void fillView(int position, View view, Release release) {
+                FindView find = FindView.inTag(view);
+                find.text(R.id.text1).setText(release.groupTitle);
+                find.text(R.id.text2).setText(release.title);
+                if (release.season != 0 || release.episode != 0) {
+                    find.text(R.id.text3).setText(release.season + " сезон " + release.episode + " серія");
+                }
+                Picasso.with(getContext()).load(release.imageLink).into(find.image(R.id.image));
+            }
+
+            @Override
+            protected View inflateView(int position, ViewGroup parent) {
+                return FindView.holdViewInTags(layoutInflater.inflate(R.layout.release_list_item, parent, false), R.id.text1, R.id.text2, R.id.text3, R.id.image);
+            }
+        };
+        loadReleases();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.release_list, container, false);
+        listView = (ListView) view.findViewById(R.id.list);
+        listView.setAdapter(listAdapter);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadReleases();
+            }
+        });
+        swipeRefreshLayout.setRefreshing(loading);
+        return view;
+    }
+
+    private void loadReleases() {
+        if (!loading) {
+            loading = true;
             new ResultTask<Void, Void, List<Release>>() {
+                @Override
+                protected void onPreExecute() {
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(true);
+                    }
+                }
+
                 @Override
                 protected List<Release> produceData(Void... params) throws Throwable {
                     return Lists.newArrayList(Collections2.transform(
@@ -97,24 +152,10 @@ public class RecentReleasesFragment extends ListFragment {
 
                 @Override
                 protected void onPostExecute(Result<List<Release>> result) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    loading = false;
                     if (result.success) {
-                        setListAdapter(new BaseListAdapter<Release>(getActivity(), result.data) {
-                            @Override
-                            protected void fillView(int position, View view, Release release) {
-                                FindView find = FindView.inTag(view);
-                                find.text(R.id.text1).setText(release.groupTitle);
-                                find.text(R.id.text2).setText(release.title);
-                                if (release.season != 0 || release.episode != 0) {
-                                    find.text(R.id.text3).setText(release.season + " сезон " + release.episode + " серія");
-                                }
-                                Picasso.with(getContext()).load(release.imageLink).into(find.image(R.id.image));
-                            }
-
-                            @Override
-                            protected View inflateView(int position, ViewGroup parent) {
-                                return FindView.holdViewInTags(layoutInflater.inflate(R.layout.release_list_item, parent, false), R.id.text1, R.id.text2, R.id.text3, R.id.image);
-                            }
-                        });
+                        listAdapter.reload(result.data);
                     } else {
                         Log.d(TAG, result.toString());
                     }
@@ -122,5 +163,4 @@ public class RecentReleasesFragment extends ListFragment {
             }.execute();
         }
     }
-
 }

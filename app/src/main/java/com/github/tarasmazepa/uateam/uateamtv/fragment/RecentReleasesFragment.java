@@ -28,33 +28,21 @@ import org.jsoup.select.Elements;
 
 import java.util.List;
 
-public class RecentReleasesFragment extends Fragment {
+public class RecentReleasesFragment extends BaseFragment {
     private static final String TAG = RecentReleasesFragment.class.getSimpleName();
-
-    private static final String ARG_SECTION_NUMBER = "section_number";
 
     private ListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private BaseListAdapter<Release> listAdapter;
     private boolean loading;
 
+    public static RecentReleasesFragment create(int position) {
+        return create(new RecentReleasesFragment(), position);
+    }
+
     public RecentReleasesFragment() {
         super();
         setRetainInstance(true);
-    }
-
-    public static RecentReleasesFragment newInstance(int sectionNumber) {
-        RecentReleasesFragment fragment = new RecentReleasesFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     @Override

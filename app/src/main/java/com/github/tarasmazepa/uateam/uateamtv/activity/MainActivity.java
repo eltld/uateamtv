@@ -2,6 +2,7 @@ package com.github.tarasmazepa.uateam.uateamtv.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -9,6 +10,8 @@ import android.view.Menu;
 import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.NavigationDrawerFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.RecentReleasesFragment;
+import com.github.tarasmazepa.uateam.uateamtv.fragment.SeriesFragment;
+import com.github.tarasmazepa.uateam.uateamtv.fragment.StubFragment;
 
 
 public class MainActivity extends Activity
@@ -30,7 +33,20 @@ public class MainActivity extends Activity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        getFragmentManager().beginTransaction().replace(R.id.container, RecentReleasesFragment.newInstance(position)).commit();
+        Fragment fragment;
+        switch (position) {
+            case 0:
+                fragment = RecentReleasesFragment.create(position);
+                break;
+            case 1:
+                fragment = SeriesFragment.create(position);
+                break;
+            case 2:
+            case 3:
+            default:
+                fragment = StubFragment.create(position);
+        }
+        getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
     public void onSectionAttached(int number) {

@@ -13,7 +13,6 @@ import com.github.tarasmazepa.uateam.uateamtv.fragment.MoviesFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.NavigationDrawerFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.RecentReleasesFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.SeriesFragment;
-import com.github.tarasmazepa.uateam.uateamtv.fragment.StubFragment;
 
 
 public class MainActivity extends Activity
@@ -50,7 +49,7 @@ public class MainActivity extends Activity
                 fragment = CartoonsFragment.create(position);
                 break;
             default:
-                fragment = StubFragment.create(position);
+                throw new IllegalArgumentException();
         }
         getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }

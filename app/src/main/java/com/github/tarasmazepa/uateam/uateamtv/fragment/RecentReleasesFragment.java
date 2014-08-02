@@ -15,6 +15,7 @@ import com.github.tarasmazepa.uateam.uateamtv.activity.MainActivity;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.BaseListAdapter;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.model.Release;
+import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
 import com.github.tarasmazepa.uateam.uateamtv.task.ResultTask;
 import com.github.tarasmazepa.uateam.uateamtv.view.FindView;
 import com.google.common.base.Function;
@@ -100,7 +101,7 @@ public class RecentReleasesFragment extends BaseFragment {
                 @Override
                 protected List<Release> produceData(Void... params) throws Throwable {
                     return Lists.newArrayList(Collections2.transform(
-                            Jsoup.connect("http://uateam.tv/").timeout(12000).get().select("div.freshrelease"), new Function<Element, Release>() {
+                            Uateamtv.home().select("div.freshrelease"), new Function<Element, Release>() {
                                 @Override
                                 public Release apply(Element element) {
                                     Release release = new Release();
@@ -126,7 +127,7 @@ public class RecentReleasesFragment extends BaseFragment {
                                     }
                                     elements = element.select("> p > a");
                                     if (elements.size() > 0) {
-                                        release.detailsLink = elements.first().attr("abs:href");
+                                        release.link = elements.first().attr("abs:href");
                                     }
                                     elements = element.select("> p > a > img");
                                     if (elements.size() > 0) {

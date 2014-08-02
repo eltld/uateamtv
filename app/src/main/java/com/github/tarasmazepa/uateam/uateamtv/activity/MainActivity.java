@@ -8,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
+import com.github.tarasmazepa.uateam.uateamtv.fragment.CartoonsFragment;
+import com.github.tarasmazepa.uateam.uateamtv.fragment.MoviesFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.NavigationDrawerFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.RecentReleasesFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.SeriesFragment;
@@ -42,7 +44,11 @@ public class MainActivity extends Activity
                 fragment = SeriesFragment.create(position);
                 break;
             case 2:
+                fragment = MoviesFragment.create(position);
+                break;
             case 3:
+                fragment = CartoonsFragment.create(position);
+                break;
             default:
                 fragment = StubFragment.create(position);
         }

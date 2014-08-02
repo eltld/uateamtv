@@ -15,9 +15,9 @@ import org.jsoup.nodes.Element;
 
 import java.util.List;
 
-public class SeriesFragment extends StubFragment {
-    public static SeriesFragment create(int position) {
-        return create(new SeriesFragment(), position);
+public class CartoonsFragment extends StubFragment {
+    public static CartoonsFragment create(int position) {
+        return create(new CartoonsFragment(), position);
     }
 
     @Override
@@ -26,13 +26,13 @@ public class SeriesFragment extends StubFragment {
         new ResultTask<Void, Void, List<Link>>() {
             @Override
             protected List<Link> produceData(Void... voids) throws Throwable {
-                return transformToLinks(Uateamtv.home().select("div#ja-col1 div.module:eq(0) table a"));
+                return transformToLinks(Uateamtv.page("/cartoons").select(Uateamtv.SELECT));
             }
 
             @Override
-            protected void onPostExecute(Result<List<Link>> result) {
-                if (result.success) {
-                    onDataLoaded(result.data);
+            protected void onPostExecute(Result<List<Link>> listResult) {
+                if(listResult.success) {
+                    onDataLoaded(listResult.data);
                 }
             }
         }.execute();

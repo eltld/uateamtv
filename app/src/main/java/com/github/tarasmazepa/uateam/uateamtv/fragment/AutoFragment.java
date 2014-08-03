@@ -1,16 +1,24 @@
 package com.github.tarasmazepa.uateam.uateamtv.fragment;
 
+import android.os.Bundle;
+
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.base.LinkListFragment;
 import com.github.tarasmazepa.uateam.uateamtv.model.Link;
 import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
 import com.github.tarasmazepa.uateam.uateamtv.task.ResultTask;
+import com.github.tarasmazepa.uateam.uateamtv.util.Fragments;
 
 import java.util.List;
 
-public class SeriesFragment extends LinkListFragment {
-    public static SeriesFragment create(int position) {
-        return create(new SeriesFragment(), position);
+public class AutoFragment extends LinkListFragment {
+    private static final String KEY_LINK = "link";
+
+    public static <T extends AutoFragment> T create(T fragment, String link, int position) {
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_LINK, link);
+        bundle.putInt(KEY_SECTION_NUMBER, position);
+        return Fragments.setArguments(fragment, bundle);
     }
 
     @Override
@@ -18,7 +26,7 @@ public class SeriesFragment extends LinkListFragment {
         new ResultTask<Void, Void, List<Link>>() {
             @Override
             protected List<Link> produceData(Void... voids) throws Throwable {
-                return transformToLinks(Uateamtv.home().select("div#ja-col1 div.module:eq(0) table a"));
+                return transformToLinks(Uateamtv.page(getArguments().getString(KEY_LINK)).select(Uateamtv.SELECT));
             }
 
             @Override

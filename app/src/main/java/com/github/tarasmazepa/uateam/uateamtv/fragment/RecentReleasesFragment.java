@@ -6,6 +6,7 @@ import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.BaseViewFiller;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.ListAdapter;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
+import com.github.tarasmazepa.uateam.uateamtv.fragment.base.ListFragment;
 import com.github.tarasmazepa.uateam.uateamtv.model.Release;
 import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
 import com.github.tarasmazepa.uateam.uateamtv.task.ResultTask;

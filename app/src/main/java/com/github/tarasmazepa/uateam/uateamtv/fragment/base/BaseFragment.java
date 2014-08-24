@@ -19,6 +19,8 @@ public class BaseFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(getArguments().getInt(KEY_SECTION_NUMBER));
+        if (activity instanceof MainActivity) {
+            ((MainActivity) activity).onSectionAttached(getArguments().getInt(KEY_SECTION_NUMBER));
+        }
     }
 }

@@ -11,7 +11,11 @@ import com.github.tarasmazepa.uateam.uateamtv.util.Fragments;
 import java.util.List;
 
 public class AutoFragment extends LinkListFragment {
-    private static final String KEY_LINK = "link";
+    public static final String KEY_LINK = "link";
+
+    public static AutoFragment create(String link) {
+        return create(new AutoFragment(), link, 0);
+    }
 
     public static <T extends AutoFragment> T create(T fragment, String link, int position) {
         Bundle bundle = new Bundle();

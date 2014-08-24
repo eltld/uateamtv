@@ -22,7 +22,7 @@ public abstract class LinkListFragment extends ListFragment<Link> {
         return Lists.newArrayList(Collections2.transform(elements, new Function<Element, Link>() {
             @Override
             public Link apply(Element input) {
-                return new Link(input.text(), input.attr("abs:href"));
+                return new Link(input.text(), input.attr("href"));
             }
         }));
     }

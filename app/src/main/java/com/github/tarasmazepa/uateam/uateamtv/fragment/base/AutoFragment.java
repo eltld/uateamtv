@@ -1,9 +1,8 @@
-package com.github.tarasmazepa.uateam.uateamtv.fragment;
+package com.github.tarasmazepa.uateam.uateamtv.fragment.base;
 
 import android.os.Bundle;
 
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
-import com.github.tarasmazepa.uateam.uateamtv.fragment.base.LinkListFragment;
 import com.github.tarasmazepa.uateam.uateamtv.model.Link;
 import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
 import com.github.tarasmazepa.uateam.uateamtv.task.ResultTask;

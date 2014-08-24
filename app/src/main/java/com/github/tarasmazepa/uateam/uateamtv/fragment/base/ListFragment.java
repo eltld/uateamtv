@@ -15,6 +15,7 @@ import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.ListAdapter;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.model.Link;
+import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
 
 import java.util.List;
 
@@ -42,6 +43,7 @@ public abstract class ListFragment<Item extends Link> extends BaseFragment {
         listView = (ListView) view.findViewById(R.id.list);
         listView.setAdapter(adapter);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.cherry, R.color.yellow, R.color.cherry, R.color.yellow);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -59,7 +61,7 @@ public abstract class ListFragment<Item extends Link> extends BaseFragment {
     }
 
     protected void onItemClicked(Item item) {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(item.link)));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Uateamtv.absoluteUrl(item.link))));
     }
 
     protected void startLoading() {

@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
+import com.github.tarasmazepa.uateam.uateamtv.activity.ReleaseActivity;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.ListAdapter;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.model.Link;
@@ -61,7 +62,7 @@ public abstract class ListFragment<Item extends Link> extends BaseFragment {
     }
 
     protected void onItemClicked(Item item) {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Uateamtv.absoluteUrl(item.link))));
+        ReleaseActivity.start(getActivity(), item.link);
     }
 
     protected void startLoading() {

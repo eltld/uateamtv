@@ -3,16 +3,15 @@ package com.github.tarasmazepa.uateam.uateamtv.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
-import com.github.tarasmazepa.uateam.uateamtv.fragment.base.AutoFragment;
+import com.github.tarasmazepa.uateam.uateamtv.fragment.base.ReleaseListFragment;
 
-public class AutoActivity extends Activity {
+public class ReleaseListActivity extends Activity {
     public static void start(Activity activity, String link) {
-        Intent intent = new Intent(activity, AutoActivity.class);
-        intent.putExtra(AutoFragment.KEY_LINK, link);
+        Intent intent = new Intent(activity, ReleaseListActivity.class);
+        intent.putExtra(ReleaseListFragment.KEY_LINK, link);
         activity.startActivity(intent);
     }
 
@@ -21,7 +20,7 @@ public class AutoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.empty_frame);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getFragmentManager().beginTransaction().add(R.id.container, AutoFragment.create(getIntent().getStringExtra(AutoFragment.KEY_LINK))).commit();
+        getFragmentManager().beginTransaction().add(R.id.container, ReleaseListFragment.create(getIntent().getStringExtra(ReleaseListFragment.KEY_LINK))).commit();
     }
 
     @Override

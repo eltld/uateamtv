@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AutoActivity" />
+        <activity android:name=".activity.ReleaseListActivity" />
+        <activity android:name=".activity.ReleaseActivity" />
     </application>
 
 </manifest>

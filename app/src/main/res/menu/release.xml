@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.github.tarasmazepa.uateam.uateamtv.activity.ReleaseActivity">
+    <item
+        android:id="@+id/action_watch"
+        android:title="@string/watch"
+        android:showAsAction="ifRoom" />
+</menu>

@@ -10,14 +10,14 @@ import com.github.tarasmazepa.uateam.uateamtv.util.Fragments;
 
 import java.util.List;
 
-public class AutoFragment extends LinkListFragment {
+public class ReleaseListFragment extends LinkListFragment {
     public static final String KEY_LINK = "link";
 
-    public static AutoFragment create(String link) {
-        return create(new AutoFragment(), link, 0);
+    public static ReleaseListFragment create(String link) {
+        return create(new ReleaseListFragment(), link, 0);
     }
 
-    public static <T extends AutoFragment> T create(T fragment, String link, int position) {
+    public static <T extends ReleaseListFragment> T create(T fragment, String link, int position) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_LINK, link);
         bundle.putInt(KEY_SECTION_NUMBER, position);

@@ -1,6 +1,6 @@
 package com.github.tarasmazepa.uateam.uateamtv.fragment;
 
-import com.github.tarasmazepa.uateam.uateamtv.activity.AutoActivity;
+import com.github.tarasmazepa.uateam.uateamtv.activity.ReleaseListActivity;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.base.LinkListFragment;
 import com.github.tarasmazepa.uateam.uateamtv.model.Link;
@@ -31,6 +31,6 @@ public class SeriesFragment extends LinkListFragment {
 
     @Override
     protected void onItemClicked(Link link) {
-        AutoActivity.start(getActivity(), link.link);
+        ReleaseListActivity.start(getActivity(), link.link);
     }
 }

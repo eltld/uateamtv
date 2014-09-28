@@ -9,8 +9,10 @@ import android.view.MenuItem;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
+import com.github.tarasmazepa.uateam.uateamtv.model.Release;
 import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
 import com.github.tarasmazepa.uateam.uateamtv.task.ResultTask;
+import com.squareup.picasso.Picasso;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -18,27 +20,24 @@ import org.jsoup.select.Elements;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ReleaseActivity extends Activity {
+public class ReleaseActivity extends BaseActivity {
     public static void start(Activity activity, String link) {
-        Intent intent = new Intent(activity, ReleaseActivity.class);
-        intent.putExtra(KEY_LINK, link);
-        activity.startActivity(intent);
+        start(ReleaseActivity.class, activity, link);
     }
 
-    private static final String KEY_LINK = "link";
-
+    private static final String QUERY_POSTER = "div.article-content img";
     private static final String QUERY_DIV_ONLINE_CODE = "div#online_code param[name=flashvars]";
     private static final String ATTR_VALUE = "value";
     private static final String REGEXP_WATCH_ONLINE_FILE = ".*file\\=((http|https|ftp)\\://[a-zA-Z0-9\\-\\.]+\\.[a-zA-Z]{2,3}/[a-zA-Z0-9\\-\\._/\\\\]+\\.mp4).*";
 
-    private String watchOnlineLink;
     private String posterLink;
+    private String watchOnlineLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release);
-        if (watchOnlineLink == null) {
+        if (posterLink == null) {
             new ResultTask<String, Void, Void>() {
                 @Override
                 protected Void produceData(String... strings) throws Throwable {
@@ -54,11 +53,16 @@ public class ReleaseActivity extends Activity {
                             }
                         }
                     }
+                    elements = document.select(QUERY_POSTER);
+                    if (elements.size() > 0) {
+                        posterLink = elements.first().attr("src");
+                    }
                     return null;
                 }
 
                 @Override
                 protected void onPostExecute(Result<Void> voidResult) {
+                    Picasso.with(ReleaseActivity.this).load(posterLink).into((android.widget.ImageView) findViewById(R.id.poster));
                     invalidateOptionsMenu();
                 }
             }.execute(getIntent().getStringExtra(KEY_LINK));

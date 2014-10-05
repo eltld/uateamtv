@@ -1,6 +1,7 @@
 package com.github.tarasmazepa.uateam.uateamtv.view;
 
 import android.app.Activity;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -50,36 +51,50 @@ public class FindView {
         return root;
     }
 
-    public <T extends View> T find(int id) {
+    public <T extends View> T view(int id) {
         return (T) viewSource.get(id);
     }
 
     public TextView text(int id) {
-        return find(id);
+        return view(id);
     }
 
     public EditText edit(int id) {
-        return find(id);
+        return view(id);
     }
 
     public ImageView image(int id) {
-        return find(id);
+        return view(id);
     }
 
     public Button button(int id) {
-        return find(id);
+        return view(id);
     }
 
     public ImageButton imageButton(int id) {
-        return find(id);
+        return view(id);
     }
 
     public CompoundButton compoundButton(int id) {
-        return find(id);
+        return view(id);
+    }
+
+    public CardView card(int id) {
+        return view(id);
+    }
+
+    public FindView backgraundColor(int id, int rgb) {
+        view(id).setBackgroundColor(rgb);
+        return this;
+    }
+
+    public FindView textColor(int id, int rgb) {
+        text(id).setTextColor(rgb);
+        return this;
     }
 
     public FindView visibility(int id, boolean visible) {
-        find(id).setVisibility(visible ? View.VISIBLE : View.GONE);
+        view(id).setVisibility(visible ? View.VISIBLE : View.GONE);
         return this;
     }
 

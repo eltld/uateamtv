@@ -2,16 +2,21 @@ package com.github.tarasmazepa.uateam.uateamtv.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
+import android.support.v7.graphics.PaletteItem;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
-import com.github.tarasmazepa.uateam.uateamtv.model.Release;
 import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
 import com.github.tarasmazepa.uateam.uateamtv.task.ResultTask;
+import com.github.tarasmazepa.uateam.uateamtv.view.FindView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.nodes.Document;
@@ -62,7 +67,29 @@ public class ReleaseActivity extends BaseActivity {
 
                 @Override
                 protected void onPostExecute(Result<Void> voidResult) {
-                    Picasso.with(ReleaseActivity.this).load(posterLink).into((android.widget.ImageView) findViewById(R.id.poster));
+                    Picasso.with(ReleaseActivity.this).load(posterLink).into((android.widget.ImageView) findViewById(R.id.poster), new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            Palette.generateAsync(((BitmapDrawable) ((ImageView) findViewById(R.id.poster)).getDrawable()).getBitmap(), new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    PaletteItem paletteItem = palette.getDarkVibrantColor();
+                                    if (paletteItem == null) {
+                                        if (palette.getPallete().isEmpty()) {
+                                            return;
+                                        } else {
+                                            paletteItem = palette.getPallete().get(0);
+                                        }
+                                    }
+                                    FindView.inActivity(ReleaseActivity.this).backgraundColor(R.id.container, paletteItem.getRgb());
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError() {
+                        }
+                    });
                     invalidateOptionsMenu();
                 }
             }.execute(getIntent().getStringExtra(KEY_LINK));

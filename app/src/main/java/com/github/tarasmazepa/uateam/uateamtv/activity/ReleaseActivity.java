@@ -26,8 +26,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ReleaseActivity extends BaseActivity {
-    public static void start(Activity activity, String link) {
-        start(ReleaseActivity.class, activity, link);
+    public static void start(Activity activity, String link, String title) {
+        start(ReleaseActivity.class, activity, link, title);
     }
 
     private static final String QUERY_POSTER = "div.article-content img";

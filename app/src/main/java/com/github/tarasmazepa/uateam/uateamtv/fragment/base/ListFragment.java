@@ -1,7 +1,5 @@
 package com.github.tarasmazepa.uateam.uateamtv.fragment.base;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -12,11 +10,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
+import com.github.tarasmazepa.uateam.uateamtv.activity.BaseActivity;
 import com.github.tarasmazepa.uateam.uateamtv.activity.ReleaseActivity;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.ListAdapter;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.model.Link;
-import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
+import com.google.common.base.Strings;
 
 import java.util.List;
 
@@ -62,7 +61,13 @@ public abstract class ListFragment<Item extends Link> extends BaseFragment {
     }
 
     protected void onItemClicked(Item item) {
-        ReleaseActivity.start(getActivity(), item.link);
+        String titleSuffix = getActivity().getIntent().getStringExtra(BaseActivity.KEY_TITLE);
+        if (Strings.isNullOrEmpty(titleSuffix)) {
+            titleSuffix = "";
+        } else {
+            titleSuffix = " - " + titleSuffix;
+        }
+        ReleaseActivity.start(getActivity(), item.link, item.title + titleSuffix);
     }
 
     protected void startLoading() {

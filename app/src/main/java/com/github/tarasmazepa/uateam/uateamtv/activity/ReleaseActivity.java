@@ -16,6 +16,7 @@ import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
 import com.github.tarasmazepa.uateam.uateamtv.task.ResultTask;
 import com.github.tarasmazepa.uateam.uateamtv.view.FindView;
+import com.google.common.base.Strings;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -26,14 +27,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ReleaseActivity extends BaseActivity {
-    public static void start(Activity activity, String link, String title) {
-        start(ReleaseActivity.class, activity, link, title);
+    public static void start(Activity activity, String link, String title, String subtitle) {
+        if (Strings.isNullOrEmpty(subtitle)) {
+            subtitle = "";
+        } else {
+            subtitle = " - " + subtitle;
+        }
+        start(ReleaseActivity.class, activity, link, title + subtitle);
     }
 
     private static final String QUERY_POSTER = "div.article-content img";
     private static final String QUERY_DIV_ONLINE_CODE = "div#online_code param[name=flashvars]";
     private static final String ATTR_VALUE = "value";
     private static final String REGEXP_WATCH_ONLINE_FILE = ".*file\\=((http|https|ftp)\\://[a-zA-Z0-9\\-\\.]+\\.[a-zA-Z]{2,3}/[a-zA-Z0-9\\-\\._/\\\\]+\\.mp4).*";
+
+    private static final String KEY_POSTER_LINK = "poster_link";
+    private static final String KEY_WATCH_ONLINE_LINK = "watch_online_link";
 
     private String posterLink;
     private String watchOnlineLink;
@@ -42,6 +51,13 @@ public class ReleaseActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release);
+        if (savedInstanceState != null) {
+            posterLink = savedInstanceState.getString(KEY_POSTER_LINK);
+            watchOnlineLink = savedInstanceState.getString(KEY_WATCH_ONLINE_LINK);
+            if (posterLink != null) {
+                prepareView();
+            }
+        }
         if (posterLink == null) {
             new ResultTask<String, Void, Void>() {
                 @Override
@@ -66,34 +82,18 @@ public class ReleaseActivity extends BaseActivity {
                 }
 
                 @Override
-                protected void onPostExecute(Result<Void> voidResult) {
-                    Picasso.with(ReleaseActivity.this).load(posterLink).into((android.widget.ImageView) findViewById(R.id.poster), new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            Palette.generateAsync(((BitmapDrawable) ((ImageView) findViewById(R.id.poster)).getDrawable()).getBitmap(), new Palette.PaletteAsyncListener() {
-                                @Override
-                                public void onGenerated(Palette palette) {
-                                    PaletteItem paletteItem = palette.getDarkVibrantColor();
-                                    if (paletteItem == null) {
-                                        if (palette.getPallete().isEmpty()) {
-                                            return;
-                                        } else {
-                                            paletteItem = palette.getPallete().get(0);
-                                        }
-                                    }
-                                    FindView.inActivity(ReleaseActivity.this).backgraundColor(R.id.container, paletteItem.getRgb());
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onError() {
-                        }
-                    });
-                    invalidateOptionsMenu();
+                protected void onPostExecute(Result<Void> result) {
+                    prepareView();
                 }
             }.execute(getIntent().getStringExtra(KEY_LINK));
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(KEY_POSTER_LINK, posterLink);
+        outState.putString(KEY_WATCH_ONLINE_LINK, watchOnlineLink);
     }
 
     @Override
@@ -117,5 +117,32 @@ public class ReleaseActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void prepareView() {
+        invalidateOptionsMenu();
+        Picasso.with(ReleaseActivity.this).load(posterLink).into((android.widget.ImageView) findViewById(R.id.poster), new Callback() {
+            @Override
+            public void onSuccess() {
+                Palette.generateAsync(((BitmapDrawable) ((ImageView) findViewById(R.id.poster)).getDrawable()).getBitmap(), new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+                        PaletteItem paletteItem = palette.getDarkVibrantColor();
+                        if (paletteItem == null) {
+                            if (palette.getPallete().isEmpty()) {
+                                return;
+                            } else {
+                                paletteItem = palette.getPallete().get(0);
+                            }
+                        }
+                        FindView.inActivity(ReleaseActivity.this).backgraundColor(R.id.container, paletteItem.getRgb());
+                    }
+                });
+            }
+
+            @Override
+            public void onError() {
+            }
+        });
     }
 }

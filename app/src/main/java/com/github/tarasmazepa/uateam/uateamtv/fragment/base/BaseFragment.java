@@ -20,7 +20,11 @@ public class BaseFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (activity instanceof MainActivity) {
-            ((MainActivity) activity).onSectionAttached(getArguments().getInt(KEY_SECTION_NUMBER));
+            ((MainActivity) activity).onSectionAttached(getPosition());
         }
+    }
+
+    public int getPosition() {
+        return getArguments().getInt(KEY_SECTION_NUMBER);
     }
 }

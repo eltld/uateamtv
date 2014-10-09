@@ -15,7 +15,6 @@ import com.github.tarasmazepa.uateam.uateamtv.activity.ReleaseActivity;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.ListAdapter;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.model.Link;
-import com.google.common.base.Strings;
 
 import java.util.List;
 
@@ -61,13 +60,7 @@ public abstract class ListFragment<Item extends Link> extends BaseFragment {
     }
 
     protected void onItemClicked(Item item) {
-        String titleSuffix = getActivity().getIntent().getStringExtra(BaseActivity.KEY_TITLE);
-        if (Strings.isNullOrEmpty(titleSuffix)) {
-            titleSuffix = "";
-        } else {
-            titleSuffix = " - " + titleSuffix;
-        }
-        ReleaseActivity.start(getActivity(), item.link, item.title + titleSuffix);
+        ReleaseActivity.start(getActivity(), item.link, item.title, getActivity().getIntent().getStringExtra(BaseActivity.KEY_TITLE));
     }
 
     protected void startLoading() {

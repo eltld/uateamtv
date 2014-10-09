@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
+import com.github.tarasmazepa.uateam.uateamtv.activity.ReleaseActivity;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.BaseViewFiller;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.ListAdapter;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
@@ -47,18 +48,18 @@ public class RecentReleasesFragment extends ListFragment<Release> {
                 Picasso.with(getActivity()).load(release.imageLink).into(image, new Callback() {
                     @Override
                     public void onSuccess() {
-                        Palette.generateAsync(((BitmapDrawable)image.getDrawable()).getBitmap(), new Palette.PaletteAsyncListener() {
+                        Palette.generateAsync(((BitmapDrawable) image.getDrawable()).getBitmap(), new Palette.PaletteAsyncListener() {
                             @Override
                             public void onGenerated(Palette palette) {
                                 find.textColor(R.id.line1, palette.getMutedColor().getRgb());
                                 find.textColor(R.id.line2, palette.getVibrantColor().getRgb());
                                 find.textColor(R.id.line3, palette.getVibrantColor().getRgb());
-                                find.backgraundColor(R.id.color1, palette.getMutedColor().getRgb());
+                                /*find.backgraundColor(R.id.color1, palette.getMutedColor().getRgb());
                                 find.backgraundColor(R.id.color2, palette.getVibrantColor().getRgb());
                                 find.backgraundColor(R.id.color3, palette.getDarkMutedColor().getRgb());
                                 find.backgraundColor(R.id.color4, palette.getDarkVibrantColor().getRgb());
                                 find.backgraundColor(R.id.color5, palette.getLightMutedColor().getRgb());
-                                find.backgraundColor(R.id.color6, palette.getLightVibrantColor().getRgb());
+                                find.backgraundColor(R.id.color6, palette.getLightVibrantColor().getRgb());*/
                             }
                         });
                     }
@@ -120,5 +121,10 @@ public class RecentReleasesFragment extends ListFragment<Release> {
                 onFinishLoading(result);
             }
         }.execute();
+    }
+
+    @Override
+    protected void onItemClicked(Release release) {
+        ReleaseActivity.start(getActivity(), release.link, release.title, release.groupTitle);
     }
 }

@@ -2,7 +2,6 @@ package com.github.tarasmazepa.uateam.uateamtv.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -13,6 +12,7 @@ import com.github.tarasmazepa.uateam.uateamtv.fragment.MoviesFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.NavigationDrawerFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.RecentReleasesFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.SeriesFragment;
+import com.github.tarasmazepa.uateam.uateamtv.fragment.base.BaseFragment;
 
 
 public class MainActivity extends Activity
@@ -34,24 +34,26 @@ public class MainActivity extends Activity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        Fragment fragment;
-        switch (position) {
-            case 0:
-                fragment = RecentReleasesFragment.create(position);
-                break;
-            case 1:
-                fragment = SeriesFragment.create(position);
-                break;
-            case 2:
-                fragment = MoviesFragment.create(position);
-                break;
-            case 3:
-                fragment = CartoonsFragment.create(position);
-                break;
-            default:
-                throw new IllegalArgumentException();
+        BaseFragment fragment = (BaseFragment) getFragmentManager().findFragmentById(R.id.container);
+        if (fragment == null || fragment.getPosition() != position) {
+            switch (position) {
+                case 0:
+                    fragment = RecentReleasesFragment.create(position);
+                    break;
+                case 1:
+                    fragment = SeriesFragment.create(position);
+                    break;
+                case 2:
+                    fragment = MoviesFragment.create(position);
+                    break;
+                case 3:
+                    fragment = CartoonsFragment.create(position);
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+            getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
-        getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
     public void onSectionAttached(int number) {
@@ -73,9 +75,11 @@ public class MainActivity extends Activity
 
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        if (actionBar != null) {
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle(mTitle);
+        }
     }
 
 

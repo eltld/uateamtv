@@ -1,6 +1,7 @@
 package com.github.tarasmazepa.uateam.uateamtv.activity;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
@@ -15,6 +16,9 @@ public class ReleaseListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.empty_frame);
-        getFragmentManager().beginTransaction().add(R.id.container, ReleaseListFragment.create(getIntent().getStringExtra(ReleaseListFragment.KEY_LINK))).commit();
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.container);
+        if (fragment == null) {
+            getFragmentManager().beginTransaction().replace(R.id.container, ReleaseListFragment.create(getIntent().getStringExtra(ReleaseListFragment.KEY_LINK))).commit();
+        }
     }
 }

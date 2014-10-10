@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 public class BaseActivity extends Activity{
-    protected static final String KEY_LINK = "link";
+    public static final String KEY_LINK = "link";
     public static final String KEY_TITLE = "title";
 
     public static void start(Class<? extends BaseActivity> activityClass, Activity activity, String link, String title) {

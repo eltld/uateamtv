@@ -2,13 +2,11 @@ package com.github.tarasmazepa.uateam.uateamtv.fragment;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.graphics.Palette;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.activity.ReleaseActivity;
-import com.github.tarasmazepa.uateam.uateamtv.adapter.BaseViewFiller;
-import com.github.tarasmazepa.uateam.uateamtv.adapter.ListAdapter;
+import com.github.tarasmazepa.uateam.uateamtv.adapter.ViewFiller;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.base.ListFragment;
 import com.github.tarasmazepa.uateam.uateamtv.model.Release;
@@ -27,18 +25,15 @@ import org.jsoup.select.Elements;
 import java.util.List;
 
 public class RecentReleasesFragment extends ListFragment<Release> {
-    private static final String TAG = RecentReleasesFragment.class.getSimpleName();
-
     public static RecentReleasesFragment create(int position) {
         return create(new RecentReleasesFragment(), position);
     }
 
     @Override
-    protected ListAdapter.ViewFiller<Release> getViewFiller() {
-        return new BaseViewFiller<Release>() {
+    protected ViewFiller<Release> getViewFiller() {
+        return new ViewFiller<Release>() {
             @Override
-            public void fillView(int position, View view, Release release) {
-                final FindView find = FindView.inTag(view);
+            public void fillView(final FindView find, Release release) {
                 find.text(R.id.line1).setText(release.groupTitle);
                 find.text(R.id.line2).setText(release.title);
                 if (release.season != 0 || release.episode != 0) {
@@ -51,15 +46,9 @@ public class RecentReleasesFragment extends ListFragment<Release> {
                         Palette.generateAsync(((BitmapDrawable) image.getDrawable()).getBitmap(), new Palette.PaletteAsyncListener() {
                             @Override
                             public void onGenerated(Palette palette) {
-                                find.textColor(R.id.line1, palette.getMutedColor().getRgb());
-                                find.textColor(R.id.line2, palette.getVibrantColor().getRgb());
-                                find.textColor(R.id.line3, palette.getVibrantColor().getRgb());
-                                /*find.backgraundColor(R.id.color1, palette.getMutedColor().getRgb());
-                                find.backgraundColor(R.id.color2, palette.getVibrantColor().getRgb());
-                                find.backgraundColor(R.id.color3, palette.getDarkMutedColor().getRgb());
-                                find.backgraundColor(R.id.color4, palette.getDarkVibrantColor().getRgb());
-                                find.backgraundColor(R.id.color5, palette.getLightMutedColor().getRgb());
-                                find.backgraundColor(R.id.color6, palette.getLightVibrantColor().getRgb());*/
+                                find.textColor(R.id.line1, palette.getMutedSwatch().getRgb());
+                                find.textColor(R.id.line2, palette.getVibrantSwatch().getRgb());
+                                find.textColor(R.id.line3, palette.getVibrantSwatch().getRgb());
                             }
                         });
                     }

@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.graphics.Palette;
-import android.support.v7.graphics.PaletteItem;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -116,15 +115,15 @@ public class ReleaseFragment extends BaseFragment {
                 Palette.generateAsync(((BitmapDrawable) ((ImageView) getView().findViewById(R.id.poster)).getDrawable()).getBitmap(), new Palette.PaletteAsyncListener() {
                     @Override
                     public void onGenerated(Palette palette) {
-                        PaletteItem paletteItem = palette.getDarkMutedColor();
-                        if (paletteItem == null) {
-                            if (palette.getPallete().isEmpty()) {
+                        Palette.Swatch swatch = palette.getDarkMutedSwatch();
+                        if (swatch == null) {
+                            if (palette.getSwatches().isEmpty()) {
                                 return;
                             } else {
-                                paletteItem = palette.getPallete().get(0);
+                                swatch = palette.getSwatches().get(0);
                             }
                         }
-                        swipeRefreshLayout.setBackgroundColor(paletteItem.getRgb());
+                        swipeRefreshLayout.setBackgroundColor(swatch.getRgb());
                     }
                 });
             }

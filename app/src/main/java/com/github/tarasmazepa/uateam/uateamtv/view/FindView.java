@@ -44,6 +44,15 @@ public class FindView {
         });
     }
 
+    public static FindView inViewHolder(final FindViewHolder findViewHolder) {
+        return new FindView(new ViewSource() {
+            @Override
+            public View get(int id) {
+                return findViewHolder.get(id);
+            }
+        });
+    }
+
     public static View holdViewInTags(View root, int... ids) {
         for (int id : ids) {
             root.setTag(id, root.findViewById(id));

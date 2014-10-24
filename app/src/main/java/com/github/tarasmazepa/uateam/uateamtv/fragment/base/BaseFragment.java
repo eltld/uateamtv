@@ -48,7 +48,7 @@ public abstract class BaseFragment extends Fragment {
         View view = inflater.inflate(R.layout.swipe_refresh, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         swipeRefreshLayout.addView(createView(inflater, swipeRefreshLayout, savedInstanceState), 0);
-        swipeRefreshLayout.setColorSchemeResources(R.color.cherry, R.color.yellow, R.color.cherry, R.color.yellow);
+        swipeRefreshLayout.setColorSchemeResources(R.color.cherry);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

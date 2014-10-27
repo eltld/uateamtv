@@ -4,8 +4,10 @@ package com.github.tarasmazepa.uateam.uateamtv.fragment;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -22,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
+import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
 
 public class NavigationDrawerFragment extends Fragment {
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
@@ -79,9 +82,7 @@ public class NavigationDrawerFragment extends Fragment {
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                new String[]{getString(R.string.title_section0), getString(R.string.title_section1),
-                        getString(R.string.title_section2), getString(R.string.title_section3),
-                }
+                new String[]{getString(R.string.title_section_fresh), getString(R.string.title_section_series), getString(R.string.title_section_movies), getString(R.string.title_section_cartoons), getString(R.string.title_section_help)}
         ));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
@@ -147,15 +148,25 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void selectItem(int position) {
+        if (position == 4) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Uateamtv.HELP)));
+            mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+            closeDrawer();
+            return;
+        }
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(mFragmentContainerView);
-        }
+        closeDrawer();
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
+        }
+    }
+
+    private void closeDrawer() {
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
     }
 

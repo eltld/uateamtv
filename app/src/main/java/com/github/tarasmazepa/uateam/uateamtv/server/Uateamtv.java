@@ -4,7 +4,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Uateamtv {
@@ -12,6 +11,8 @@ public class Uateamtv {
     }
 
     public static final String HOME = "http://uateam.tv";
+    public static final String HELP = absoluteUrl("/help-us");
+
     public static final int timeout = 12000;
 
     public static final String SELECT = "div#ja-content table.adminlist tbody td:eq(1) a";

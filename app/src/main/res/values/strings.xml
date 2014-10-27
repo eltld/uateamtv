@@ -2,10 +2,11 @@
 <resources>
 
     <string name="app_name">UA team tv</string>
-    <string name="title_section0">Свіженьке</string>
-    <string name="title_section1">Серіали</string>
-    <string name="title_section2">Фільми</string>
-    <string name="title_section3">Мультфільми</string>
+    <string name="title_section_fresh">Свіженьке</string>
+    <string name="title_section_series">Серіали</string>
+    <string name="title_section_movies">Фільми</string>
+    <string name="title_section_cartoons">Мультфільми</string>
+    <string name="title_section_help">Допомогти</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="watch">Дивитись</string>

@@ -1,5 +1,6 @@
 package com.github.tarasmazepa.uateam.uateamtv.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -107,7 +108,10 @@ public class ReleaseFragment extends BaseFragment {
     }
 
     private void prepareView() {
-        getActivity().invalidateOptionsMenu();
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.invalidateOptionsMenu();
+        }
         Picasso.with(getActivity()).load(posterLink).into((android.widget.ImageView) getView().findViewById(R.id.poster), new Callback() {
             @Override
             public void onSuccess() {

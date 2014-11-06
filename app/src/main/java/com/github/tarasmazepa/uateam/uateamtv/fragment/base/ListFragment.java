@@ -71,7 +71,7 @@ public abstract class ListFragment<Item extends Link> extends BaseFragment {
     }
 
     protected void onFinishLoading(Result<List<Item>> result) {
-        onFinishLoading();
+        onFinishLoading(result.success);
         if (result.success) {
             adapter.reload(result.data);
         } else {

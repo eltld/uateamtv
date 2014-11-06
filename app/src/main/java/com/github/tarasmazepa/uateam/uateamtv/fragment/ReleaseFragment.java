@@ -46,9 +46,9 @@ public class ReleaseFragment extends BaseFragment {
 
     @Override
     protected void loadResult() {
-        new ResultTask<String, Void, Void>() {
+        new ResultTask<String, Void, String>() {
             @Override
-            protected Void produceData(String... strings) throws Throwable {
+            protected String produceData(String... strings) throws Throwable {
                 Document document = Uateamtv.page(strings[0]);
                 Elements elements = document.select(QUERY_DIV_ONLINE_CODE);
                 if (elements.size() > 0) {
@@ -65,12 +65,16 @@ public class ReleaseFragment extends BaseFragment {
                 if (elements.size() > 0) {
                     posterLink = elements.first().attr("src");
                 }
-                return null;
+                return "";
             }
 
             @Override
-            protected void onPostExecute(Result<Void> result) {
-                prepareView();
+            protected void onPostExecute(Result<String> result) {
+                if (result.success) {
+                    prepareView();
+                } else {
+                    onFinishLoading(false);
+                }
             }
         }.execute(getActivity().getIntent().getStringExtra(BaseActivity.KEY_LINK));
     }
@@ -115,7 +119,7 @@ public class ReleaseFragment extends BaseFragment {
         Picasso.with(getActivity()).load(posterLink).into((android.widget.ImageView) getView().findViewById(R.id.poster), new Callback() {
             @Override
             public void onSuccess() {
-                onFinishLoading();
+                onFinishLoading(true);
                 Palette.generateAsync(((BitmapDrawable) ((ImageView) getView().findViewById(R.id.poster)).getDrawable()).getBitmap(), new Palette.PaletteAsyncListener() {
                     @Override
                     public void onGenerated(Palette palette) {
@@ -134,6 +138,7 @@ public class ReleaseFragment extends BaseFragment {
 
             @Override
             public void onError() {
+                onFinishLoading(false);
             }
         });
     }

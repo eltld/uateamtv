@@ -1,28 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <!--<android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:divider="#00000000"
-        android:dividerHeight="@dimen/one_x"
-        android:padding="@dimen/one_x"
-        android:scrollbarStyle="outsideOverlay" />-->
-
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:divider="#00000000"
-        android:dividerHeight="@dimen/one_x"
-        android:padding="@dimen/one_x"
-        android:scrollbarStyle="outsideOverlay" />
-</LinearLayout>
+    android:clipToPadding="false"
+    android:divider="#00000000"
+    android:dividerHeight="@dimen/one_x"
+    android:padding="@dimen/one_x"
+    android:scrollbarStyle="outsideOverlay" />

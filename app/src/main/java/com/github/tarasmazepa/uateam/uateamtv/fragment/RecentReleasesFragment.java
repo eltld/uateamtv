@@ -119,6 +119,11 @@ public class RecentReleasesFragment extends ListFragment<Release> {
     }
 
     @Override
+    protected String getUrl() {
+        return "";
+    }
+
+    @Override
     protected void onItemClicked(Release release) {
         ReleaseActivity.start(getActivity(), release.link, release.title, release.groupTitle);
     }

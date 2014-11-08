@@ -91,6 +91,11 @@ public class ReleaseFragment extends BaseFragment {
     }
 
     @Override
+    protected String getUrl() {
+        return getActivity().getIntent().getStringExtra(BaseActivity.KEY_LINK);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prepareView();
@@ -98,11 +103,13 @@ public class ReleaseFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.release, menu);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.action_watch).setVisible(watchOnlineLink != null);
     }
 
@@ -110,6 +117,7 @@ public class ReleaseFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_watch:
+                analytics.action(Analytics.Action.WATCH_VIDEO);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(watchOnlineLink)));
                 return true;
             default:

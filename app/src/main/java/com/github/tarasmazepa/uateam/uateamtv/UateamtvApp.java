@@ -5,7 +5,6 @@ import android.app.Application;
 
 import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Logger;
 
 public class UateamtvApp extends Application {
     public Analytics analytics;
@@ -13,7 +12,6 @@ public class UateamtvApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        GoogleAnalytics.getInstance(this).getLogger().setLogLevel(Logger.LogLevel.VERBOSE);
         analytics = new Analytics(GoogleAnalytics.getInstance(this).newTracker(R.xml.tracker));
         analytics.viewApp();
     }

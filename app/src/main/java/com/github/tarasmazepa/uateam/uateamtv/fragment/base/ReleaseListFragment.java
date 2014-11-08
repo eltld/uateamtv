@@ -44,4 +44,9 @@ public class ReleaseListFragment extends LinkListFragment {
     protected Analytics.ScreenName getScreenName() {
         return Analytics.ScreenName.RELEASE_LIST;
     }
+
+    @Override
+    protected String getUrl() {
+        return getArguments().getString(KEY_LINK);
+    }
 }

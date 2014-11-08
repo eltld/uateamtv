@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
+import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.base.TrackingFragment;
 import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
 
@@ -149,6 +150,7 @@ public class NavigationDrawerFragment extends TrackingFragment {
 
     private void selectItem(int position) {
         if (position == 4) {
+            analytics.action(Analytics.Action.SUPPORT);
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Uateamtv.HELP)));
             mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
             closeDrawer();

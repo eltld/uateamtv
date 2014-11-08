@@ -36,6 +36,11 @@ public class SeriesFragment extends LinkListFragment {
     }
 
     @Override
+    protected String getUrl() {
+        return "";
+    }
+
+    @Override
     protected void onItemClicked(Link link) {
         ReleaseListActivity.start(getActivity(), link.link, link.title);
     }

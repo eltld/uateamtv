@@ -2,6 +2,7 @@ package com.github.tarasmazepa.uateam.uateamtv.fragment.base;
 
 import android.os.Bundle;
 
+import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.model.Link;
 import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
@@ -37,5 +38,10 @@ public class ReleaseListFragment extends LinkListFragment {
                 onFinishLoading(result);
             }
         }.execute();
+    }
+
+    @Override
+    protected Analytics.ScreenName getScreenName() {
+        return Analytics.ScreenName.RELEASE_LIST;
     }
 }

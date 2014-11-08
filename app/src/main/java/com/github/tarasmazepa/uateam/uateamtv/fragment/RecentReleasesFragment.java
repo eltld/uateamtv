@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.activity.ReleaseActivity;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.ViewFiller;
+import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.base.ListFragment;
 import com.github.tarasmazepa.uateam.uateamtv.model.Release;
@@ -110,6 +111,11 @@ public class RecentReleasesFragment extends ListFragment<Release> {
                 onFinishLoading(result);
             }
         }.execute();
+    }
+
+    @Override
+    protected Analytics.ScreenName getScreenName() {
+        return Analytics.ScreenName.FRESH;
     }
 
     @Override

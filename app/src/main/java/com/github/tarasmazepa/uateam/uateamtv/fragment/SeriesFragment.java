@@ -1,6 +1,7 @@
 package com.github.tarasmazepa.uateam.uateamtv.fragment;
 
 import com.github.tarasmazepa.uateam.uateamtv.activity.ReleaseListActivity;
+import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.base.LinkListFragment;
 import com.github.tarasmazepa.uateam.uateamtv.model.Link;
@@ -27,6 +28,11 @@ public class SeriesFragment extends LinkListFragment {
                 onFinishLoading(result);
             }
         }.execute();
+    }
+
+    @Override
+    protected Analytics.ScreenName getScreenName() {
+        return Analytics.ScreenName.SERIES;
     }
 
     @Override

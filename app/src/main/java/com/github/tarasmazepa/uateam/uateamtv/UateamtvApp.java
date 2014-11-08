@@ -3,23 +3,26 @@ package com.github.tarasmazepa.uateam.uateamtv;
 import android.app.Activity;
 import android.app.Application;
 
+import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.analytics.Logger;
 
 public class UateamtvApp extends Application {
-    private Tracker tracker;
+    public Analytics analytics;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        tracker = GoogleAnalytics.getInstance(this).newTracker(R.xml.tracker);
+        GoogleAnalytics.getInstance(this).getLogger().setLogLevel(Logger.LogLevel.VERBOSE);
+        analytics = new Analytics(GoogleAnalytics.getInstance(this).newTracker(R.xml.tracker));
+        analytics.viewApp();
     }
 
     public static UateamtvApp getApp(Activity activity) {
         return (UateamtvApp) activity.getApplication();
     }
 
-    public static Tracker getTracker(Activity activity) {
-        return getApp(activity).tracker;
+    public static Analytics getAnalytics(Activity activity) {
+        return getApp(activity).analytics;
     }
 }

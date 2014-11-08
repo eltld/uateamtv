@@ -12,9 +12,10 @@ import android.widget.Button;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.activity.MainActivity;
+import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.github.tarasmazepa.uateam.uateamtv.util.Fragments;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends TrackingFragment {
     protected static final String KEY_SECTION_NUMBER = "section_number";
     private static final String KEY_SHOW_RELOAD_BUTTON = "show_reload_button";
 
@@ -26,6 +27,8 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void loadResult();
 
     protected abstract View createView(LayoutInflater inflater, SwipeRefreshLayout swipeRefreshLayout, Bundle savedInstanceState);
+
+    protected abstract Analytics.ScreenName getScreenName();
 
     public static <T extends Fragment> T create(T fragment, int position) {
         Bundle bundle = new Bundle();
@@ -76,6 +79,12 @@ public abstract class BaseFragment extends Fragment {
         });
         swipeRefreshLayout.setRefreshing(loading);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        analytics.viewScreen(getScreenName());
     }
 
     @Override

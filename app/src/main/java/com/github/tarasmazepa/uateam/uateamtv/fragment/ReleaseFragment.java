@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.activity.BaseActivity;
+import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.base.BaseFragment;
 import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
@@ -82,6 +83,11 @@ public class ReleaseFragment extends BaseFragment {
     @Override
     protected View createView(LayoutInflater inflater, SwipeRefreshLayout swipeRefreshLayout, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.release, swipeRefreshLayout, false);
+    }
+
+    @Override
+    protected Analytics.ScreenName getScreenName() {
+        return Analytics.ScreenName.RELEASE;
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.github.tarasmazepa.uateam.uateamtv.fragment;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -24,9 +23,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
+import com.github.tarasmazepa.uateam.uateamtv.fragment.base.TrackingFragment;
 import com.github.tarasmazepa.uateam.uateamtv.server.Uateamtv;
 
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends TrackingFragment {
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
@@ -208,10 +208,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     private void showGlobalContextActionBar() {

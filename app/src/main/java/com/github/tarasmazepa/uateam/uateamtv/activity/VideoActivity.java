@@ -43,12 +43,6 @@ public class VideoActivity extends BaseActivity {
         videoView = (VideoView) findViewById(R.id.video_view);
         videoView.setVideoURI(Uri.parse(getIntent().getStringExtra(KEY_LINK)));
         videoView.start();
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.
-            }
-        });
 
         mSystemUiHider = new SystemUiHider(this, videoView, HIDER_FLAGS);
         mSystemUiHider.setup();

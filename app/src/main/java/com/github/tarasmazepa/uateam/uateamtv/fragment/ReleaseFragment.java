@@ -1,9 +1,7 @@
 package com.github.tarasmazepa.uateam.uateamtv.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.graphics.Palette;
@@ -16,6 +14,7 @@ import android.widget.ImageView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.activity.BaseActivity;
+import com.github.tarasmazepa.uateam.uateamtv.activity.VideoActivity;
 import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.base.BaseFragment;
@@ -118,7 +117,7 @@ public class ReleaseFragment extends BaseFragment {
         switch (item.getItemId()) {
             case R.id.action_watch:
                 analytics.action(Analytics.Action.WATCH_VIDEO);
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(watchOnlineLink)));
+                VideoActivity.start(getActivity(), watchOnlineLink, getActivity().getActionBar().getTitle().toString());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/open_url"
+        android:id="@+id/action_open_url"
         android:title="Відкрити в браузері"
         android:showAsAction="never" />
 </menu>

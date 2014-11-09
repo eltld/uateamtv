@@ -1,5 +1,4 @@
 <resources>
     <dimen name="navigation_drawer_width">240dp</dimen>
-
     <dimen name="one_x">10dip</dimen>
 </resources>

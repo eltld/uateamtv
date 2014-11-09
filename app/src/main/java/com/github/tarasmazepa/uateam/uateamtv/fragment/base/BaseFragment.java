@@ -100,7 +100,7 @@ public abstract class BaseFragment extends TrackingFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.open_url:
+            case R.id.action_open_url:
                 analytics.action(Analytics.Action.OPEN_IN_BROWSER);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Uateamtv.absoluteUrl(getUrl()))));
                 return true;

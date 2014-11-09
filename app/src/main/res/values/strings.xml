@@ -11,5 +11,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="watch">Дивитись</string>
     <string name="reload">Перевантажити</string>
+    <string name="video_stop">Зупинити</string>
+    <string name="video_play">Продовжити</string>
+    <string name="watch_in_other_application">Переглянути в іншій програмі</string>
 
 </resources>

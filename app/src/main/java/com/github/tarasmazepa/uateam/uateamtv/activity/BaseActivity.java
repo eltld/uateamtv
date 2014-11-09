@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-public class BaseActivity extends Activity{
+public class BaseActivity extends Activity {
     public static final String KEY_LINK = "link";
     public static final String KEY_TITLE = "title";
 

@@ -26,6 +26,7 @@ public class Analytics {
 
     public Analytics(Tracker tracker) {
         this.tracker = tracker;
+        tracker.enableAdvertisingIdCollection(true);
     }
 
     public void viewScreen(ScreenName screenName){

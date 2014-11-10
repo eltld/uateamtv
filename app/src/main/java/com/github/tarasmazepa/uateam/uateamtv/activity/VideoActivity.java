@@ -2,7 +2,6 @@ package com.github.tarasmazepa.uateam.uateamtv.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,11 +11,14 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.VideoView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
 import com.github.tarasmazepa.uateam.uateamtv.view.SystemUiHider;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class VideoActivity extends BaseActivity {
     private static final boolean AUTO_HIDE = true;
@@ -30,19 +32,52 @@ public class VideoActivity extends BaseActivity {
 
     private SystemUiHider mSystemUiHider;
     private VideoView videoView;
-    private ProgressBar progressBar;
+    private SeekBar seekBar;
     private boolean playing = true;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
+        timer = new Timer();
+
         final View controlsView = findViewById(R.id.video_controls);
-        progressBar = (ProgressBar) findViewById(R.id.video_progress);
+        seekBar = (SeekBar) findViewById(R.id.video_progress);
         videoView = (VideoView) findViewById(R.id.video_view);
         videoView.setVideoURI(Uri.parse(getIntent().getStringExtra(KEY_LINK)));
         videoView.start();
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                seekBar.setMax(videoView.getDuration());
+                seekBar.setSecondaryProgress(videoView.getBufferPercentage() * videoView.getDuration() / 100);
+                seekBar.setProgress(videoView.getCurrentPosition());
+            }
+        }, 0, 50);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    if (progress > (videoView.getBufferPercentage() * videoView.getDuration() / 100)) {
+                        videoView.seekTo(videoView.getBufferPercentage() * videoView.getDuration() / 100);
+                    } else {
+                        videoView.seekTo(progress);
+                    }
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
 
         mSystemUiHider = new SystemUiHider(this, videoView, HIDER_FLAGS);
         mSystemUiHider.setup();
@@ -121,6 +156,12 @@ public class VideoActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
     }
 
     View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {

@@ -113,7 +113,7 @@ public abstract class BaseFragment extends TrackingFragment {
     @Override
     public void onResume() {
         super.onResume();
-        analytics.viewScreen(getScreenName());
+        analytics.view(getScreenName());
     }
 
     @Override

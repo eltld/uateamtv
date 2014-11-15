@@ -13,7 +13,6 @@ public class UateamtvApp extends Application {
     public void onCreate() {
         super.onCreate();
         analytics = new Analytics(GoogleAnalytics.getInstance(this).newTracker(R.xml.tracker));
-        analytics.viewApp();
     }
 
     public static UateamtvApp getApp(Activity activity) {

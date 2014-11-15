@@ -15,5 +15,6 @@
     <string name="video_play">Продовжити</string>
     <string name="watch_in_other_application">Переглянути в іншій програмі</string>
     <string name="open_in_browser">Відкрити в браузері</string>
+    <string name="email_developer">Написати розробнику</string>
 
 </resources>

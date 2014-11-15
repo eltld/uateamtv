@@ -179,7 +179,7 @@ public class VideoActivity extends BaseChildActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        analytics.viewScreen(Analytics.ScreenName.VIDEO);
+        analytics.view(Analytics.ScreenName.VIDEO);
     }
 
     @Override

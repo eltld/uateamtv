@@ -24,7 +24,8 @@ public class Analytics {
     }
 
     public enum Action {
-        WATCH_VIDEO_OTHER_APP("Watch video other application"), OPEN_IN_BROWSER("Open in browser"), SUPPORT("Support"), REFRESH("Refresh"), EMAIL_DEVELOPER("Email developer");
+        WATCH_VIDEO_OTHER_APP("Watch video other application"), OPEN_IN_BROWSER("Open in browser"),
+        SUPPORT("Support"), REFRESH("Refresh"), EMAIL_DEVELOPER("Email developer");
         public final String name;
 
         private Action(String name) {
@@ -39,20 +40,16 @@ public class Analytics {
         tracker.enableAdvertisingIdCollection(true);
     }
 
-    public void viewScreen(ScreenName screenName) {
+    public void view(ScreenName screenName) {
         tracker.setScreenName(screenName.name);
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
-    public void viewApp() {
-        tracker.send(new HitBuilders.AppViewBuilder().build());
+    public void action(Category category, Action action) {
+        tracker.send(new HitBuilders.EventBuilder().setCategory(category.name).setAction(action.name).build());
     }
 
     public void actionGeneral(Action action) {
         action(Category.GENERAL, action);
-    }
-
-    public void action(Category category, Action action) {
-        tracker.send(new HitBuilders.EventBuilder().setCategory(category.name).setAction(action.name).build());
     }
 }

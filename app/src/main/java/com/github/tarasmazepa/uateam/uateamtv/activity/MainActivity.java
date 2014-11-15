@@ -1,12 +1,12 @@
 package com.github.tarasmazepa.uateam.uateamtv.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
+import com.github.tarasmazepa.uateam.uateamtv.activity.base.BaseActivity;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.CartoonsFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.MoviesFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.NavigationDrawerFragment;
@@ -15,8 +15,7 @@ import com.github.tarasmazepa.uateam.uateamtv.fragment.SeriesFragment;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.base.BaseFragment;
 
 
-public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends BaseActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
     private CharSequence mTitle;
@@ -84,10 +83,10 @@ public class MainActivity extends Activity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             restoreActionBar();
-            return true;
         }
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 }

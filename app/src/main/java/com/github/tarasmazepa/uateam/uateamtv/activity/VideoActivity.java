@@ -15,12 +15,14 @@ import android.widget.SeekBar;
 import android.widget.VideoView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
+import com.github.tarasmazepa.uateam.uateamtv.activity.base.BaseChildActivity;
+import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.github.tarasmazepa.uateam.uateamtv.view.SystemUiHider;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class VideoActivity extends BaseActivity {
+public class VideoActivity extends BaseChildActivity {
     private static final boolean AUTO_HIDE = true;
     private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
     private static final boolean TOGGLE_ON_CLICK = true;
@@ -35,6 +37,7 @@ public class VideoActivity extends BaseActivity {
     private SeekBar seekBar;
     private boolean playing = true;
     private Timer timer;
+    private boolean ignoreProgressUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,29 +57,39 @@ public class VideoActivity extends BaseActivity {
             @Override
             public void run() {
                 seekBar.setMax(videoView.getDuration());
-                seekBar.setSecondaryProgress(videoView.getBufferPercentage() * videoView.getDuration() / 100);
-                seekBar.setProgress(videoView.getCurrentPosition());
+                seekBar.setSecondaryProgress(getBufferedAmount());
+                if (!ignoreProgressUpdate) {
+                    seekBar.setProgress(videoView.getCurrentPosition());
+                }
             }
         }, 0, 50);
+        seekBar.setOnTouchListener(mDelayHideTouchListener);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress;
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    if (progress > (videoView.getBufferPercentage() * videoView.getDuration() / 100)) {
-                        videoView.seekTo(videoView.getBufferPercentage() * videoView.getDuration() / 100);
-                    } else {
-                        videoView.seekTo(progress);
-                    }
+                    int currentPosition = videoView.getCurrentPosition();
+                    int buffered = Math.max(getBufferedAmount(), currentPosition);
+                    progress = Math.min(progress, buffered);
+                    progress = Math.max(progress, currentPosition);
+                    this.progress = progress;
+                    seekBar.setProgress(this.progress);
                 }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                ignoreProgressUpdate = true;
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                videoView.seekTo(progress);
+                ignoreProgressUpdate = false;
             }
+
         });
 
         mSystemUiHider = new SystemUiHider(this, videoView, HIDER_FLAGS);
@@ -135,6 +148,10 @@ public class VideoActivity extends BaseActivity {
         });
     }
 
+    private int getBufferedAmount() {
+        return Math.max((videoView.getBufferPercentage() * 10 - 5) * videoView.getDuration() / 1000, 0);
+    }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -152,10 +169,17 @@ public class VideoActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_watch_in_other_app:
+                analytics.actionGeneral(Analytics.Action.WATCH_VIDEO_OTHER_APP);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getIntent().getStringExtra(KEY_LINK))));
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        analytics.viewScreen(Analytics.ScreenName.VIDEO);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.github.tarasmazepa.uateam.uateamtv.activity;
+package com.github.tarasmazepa.uateam.uateamtv.activity.base;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-public class BaseActivity extends Activity {
+public class BaseChildActivity extends BaseActivity {
     public static final String KEY_LINK = "link";
     public static final String KEY_TITLE = "title";
 
@@ -33,8 +33,7 @@ public class BaseActivity extends Activity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
+        return super.onOptionsItemSelected(item);
     }
 }

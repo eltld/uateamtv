@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -72,8 +71,6 @@ public abstract class BaseFragment extends TrackingFragment {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         swipeRefreshLayout.addView(createView(inflater, swipeRefreshLayout, savedInstanceState), 0);
         swipeRefreshLayout.setColorSchemeResources(R.color.cherry);
-        swipeRefreshLayout.setProgressViewOffset(false, 0,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,25 +80,30 @@ public abstract class BaseFragment extends TrackingFragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                analytics.action(Analytics.Action.REFRESH);
+                analytics.actionGeneral(Analytics.Action.REFRESH);
                 startLoading();
             }
         });
-        swipeRefreshLayout.setRefreshing(loading);
+        swipeRefreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(loading);
+            }
+        }, 100);
         return view;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.base, menu);
+        inflater.inflate(R.menu.base_fragment, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_open_url:
-                analytics.action(Analytics.Action.OPEN_IN_BROWSER);
+                analytics.actionGeneral(Analytics.Action.OPEN_IN_BROWSER);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Uateamtv.absoluteUrl(getUrl()))));
                 return true;
         }
@@ -134,8 +136,8 @@ public abstract class BaseFragment extends TrackingFragment {
     }
 
     protected void onFinishLoading(boolean success) {
-        swipeRefreshLayout.setRefreshing(false);
         loading = false;
+        swipeRefreshLayout.setRefreshing(false);
         refreshButton.setVisibility(success ? View.GONE : View.VISIBLE);
     }
 

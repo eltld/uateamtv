@@ -11,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
-import com.github.tarasmazepa.uateam.uateamtv.activity.BaseActivity;
 import com.github.tarasmazepa.uateam.uateamtv.activity.ReleaseActivity;
+import com.github.tarasmazepa.uateam.uateamtv.activity.base.BaseChildActivity;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.ListAdapter;
 import com.github.tarasmazepa.uateam.uateamtv.adapter.ViewFiller;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
@@ -67,7 +67,7 @@ public abstract class ListFragment<Item extends Link> extends BaseFragment {
     }
 
     protected void onItemClicked(Item item) {
-        ReleaseActivity.start(getActivity(), item.link, item.title, getActivity().getIntent().getStringExtra(BaseActivity.KEY_TITLE));
+        ReleaseActivity.start(getActivity(), item.link, item.title, getActivity().getIntent().getStringExtra(BaseChildActivity.KEY_TITLE));
     }
 
     protected void onFinishLoading(Result<List<Item>> result) {

@@ -150,7 +150,7 @@ public class NavigationDrawerFragment extends TrackingFragment {
 
     private void selectItem(int position) {
         if (position == 4) {
-            analytics.action(Analytics.Action.SUPPORT);
+            analytics.actionGeneral(Analytics.Action.SUPPORT);
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Uateamtv.HELP)));
             mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
             closeDrawer();

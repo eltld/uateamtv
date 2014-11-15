@@ -5,9 +5,10 @@ import android.app.Fragment;
 import android.os.Bundle;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
+import com.github.tarasmazepa.uateam.uateamtv.activity.base.BaseChildActivity;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.base.ReleaseListFragment;
 
-public class ReleaseListActivity extends BaseActivity {
+public class ReleaseListActivity extends BaseChildActivity {
     public static void start(Activity activity, String link, String title) {
         start(ReleaseListActivity.class, activity, link, title);
     }

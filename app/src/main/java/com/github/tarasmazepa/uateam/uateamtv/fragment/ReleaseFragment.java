@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.github.tarasmazepa.uateam.uateamtv.R;
-import com.github.tarasmazepa.uateam.uateamtv.activity.BaseActivity;
 import com.github.tarasmazepa.uateam.uateamtv.activity.VideoActivity;
+import com.github.tarasmazepa.uateam.uateamtv.activity.base.BaseChildActivity;
 import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
 import com.github.tarasmazepa.uateam.uateamtv.fragment.base.BaseFragment;
@@ -37,6 +37,7 @@ public class ReleaseFragment extends BaseFragment {
 
     private String posterLink;
     private String watchOnlineLink;
+    private ImageView posterImageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,12 +77,14 @@ public class ReleaseFragment extends BaseFragment {
                     onFinishLoading(false);
                 }
             }
-        }.execute(getActivity().getIntent().getStringExtra(BaseActivity.KEY_LINK));
+        }.execute(getActivity().getIntent().getStringExtra(BaseChildActivity.KEY_LINK));
     }
 
     @Override
     protected View createView(LayoutInflater inflater, SwipeRefreshLayout swipeRefreshLayout, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.release, swipeRefreshLayout, false);
+        View view = inflater.inflate(R.layout.release, swipeRefreshLayout, false);
+        posterImageView = (ImageView) view.findViewById(R.id.poster);
+        return view;
     }
 
     @Override
@@ -91,7 +94,7 @@ public class ReleaseFragment extends BaseFragment {
 
     @Override
     protected String getUrl() {
-        return getActivity().getIntent().getStringExtra(BaseActivity.KEY_LINK);
+        return getActivity().getIntent().getStringExtra(BaseChildActivity.KEY_LINK);
     }
 
     @Override
@@ -116,12 +119,10 @@ public class ReleaseFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_watch:
-                analytics.action(Analytics.Action.WATCH_VIDEO);
                 VideoActivity.start(getActivity(), watchOnlineLink, getActivity().getActionBar().getTitle().toString());
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void prepareView() {
@@ -129,11 +130,11 @@ public class ReleaseFragment extends BaseFragment {
         if (activity != null) {
             activity.invalidateOptionsMenu();
         }
-        Picasso.with(getActivity()).load(posterLink).into((android.widget.ImageView) getView().findViewById(R.id.poster), new Callback() {
+        Picasso.with(getActivity()).load(posterLink).into(posterImageView, new Callback() {
             @Override
             public void onSuccess() {
                 onFinishLoading(true);
-                Palette.generateAsync(((BitmapDrawable) ((ImageView) getView().findViewById(R.id.poster)).getDrawable()).getBitmap(), new Palette.PaletteAsyncListener() {
+                Palette.generateAsync(((BitmapDrawable) (posterImageView).getDrawable()).getBitmap(), new Palette.PaletteAsyncListener() {
                     @Override
                     public void onGenerated(Palette palette) {
                         Palette.Swatch swatch = palette.getDarkMutedSwatch();

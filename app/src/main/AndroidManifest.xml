@@ -28,7 +28,7 @@
         <activity android:name=".activity.ReleaseListActivity" />
         <activity android:name=".activity.ReleaseActivity" />
         <activity
-            android:name=".activity.VideoActivity"
+            android:name=".activity.OnlineVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/FullscreenTheme" >

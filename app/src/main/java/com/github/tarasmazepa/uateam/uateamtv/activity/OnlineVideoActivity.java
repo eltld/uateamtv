@@ -22,14 +22,14 @@ import com.github.tarasmazepa.uateam.uateamtv.view.SystemUiHider;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class VideoActivity extends BaseChildActivity {
+public class OnlineVideoActivity extends BaseChildActivity {
     private static final boolean AUTO_HIDE = true;
     private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
     private static final boolean TOGGLE_ON_CLICK = true;
     private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
 
     public static void start(Activity activity, String watchOnlineLink, String title) {
-        start(VideoActivity.class, activity, watchOnlineLink, title);
+        start(OnlineVideoActivity.class, activity, watchOnlineLink, title);
     }
 
     private SystemUiHider mSystemUiHider;

@@ -1,6 +1,7 @@
 package com.github.tarasmazepa.uateam.uateamtv.activity.base;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +31,11 @@ public class BaseActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_email_developer:
                 analytics.actionGeneral(Analytics.Action.EMAIL_DEVELOPER);
-                //TODO: start email app
+                Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+                emailIntent.setType("text/plain");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"mazepa.t@gmail.com"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Пропозиції та скарги на UAteamp.tv");
+                startActivity(Intent.createChooser(emailIntent, "Написати лист з допомогою"));
                 return true;
         }
         return super.onOptionsItemSelected(item);

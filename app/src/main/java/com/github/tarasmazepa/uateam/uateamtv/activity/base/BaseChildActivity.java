@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 public class BaseChildActivity extends BaseActivity {
     public static final String KEY_LINK = "link";
-    public static final String KEY_TITLE = "title";
+    private static final String KEY_TITLE = "title";
 
     public static void start(Class<? extends BaseActivity> activityClass, Activity activity, String link, String title) {
         Intent intent = new Intent(activity, activityClass);
@@ -17,13 +17,25 @@ public class BaseChildActivity extends BaseActivity {
         activity.startActivity(intent);
     }
 
+    public static String getTitle(Activity activity) {
+        return getStringExtra(activity, KEY_TITLE);
+    }
+
+    public static String getLink(Activity activity) {
+        return getStringExtra(activity, KEY_LINK);
+    }
+
+    private static String getStringExtra(Activity activity, String key) {
+        return activity.getIntent().getStringExtra(key);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(getIntent().getStringExtra(KEY_TITLE));
+            actionBar.setTitle(getTitle(this));
         }
     }
 

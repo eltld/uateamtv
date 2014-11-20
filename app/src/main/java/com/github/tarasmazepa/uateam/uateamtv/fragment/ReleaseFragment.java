@@ -41,12 +41,6 @@ public class ReleaseFragment extends BaseFragment {
     private ImageView posterImageView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
     protected void loadResult() {
         new ResultTask<String, Void, String>() {
             @Override
@@ -78,7 +72,7 @@ public class ReleaseFragment extends BaseFragment {
                     onFinishLoading(false);
                 }
             }
-        }.execute(getActivity().getIntent().getStringExtra(BaseChildActivity.KEY_LINK));
+        }.execute(BaseChildActivity.getLink(getActivity()));
     }
 
     @Override
@@ -95,7 +89,7 @@ public class ReleaseFragment extends BaseFragment {
 
     @Override
     protected String getUrl() {
-        return getActivity().getIntent().getStringExtra(BaseChildActivity.KEY_LINK);
+        return BaseChildActivity.getLink(getActivity());
     }
 
     @Override

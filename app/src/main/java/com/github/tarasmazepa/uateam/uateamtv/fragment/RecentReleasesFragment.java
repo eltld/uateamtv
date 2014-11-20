@@ -35,11 +35,7 @@ public class RecentReleasesFragment extends ListFragment<Release> {
         return new ViewFiller<Release>() {
             @Override
             public void fillView(final FindView find, Release release) {
-                find.text(R.id.line1).setText(release.groupTitle);
-                find.text(R.id.line2).setText(release.title);
-                if (release.season != 0 || release.episode != 0) {
-                    find.text(R.id.line3).setText(release.season + " сезон " + release.episode + " серія");
-                }
+                super.fillView(find, release);
                 final ImageView image = find.image(R.id.image);
                 Picasso.with(getActivity()).load(release.imageLink).into(image, new Callback() {
                     @Override

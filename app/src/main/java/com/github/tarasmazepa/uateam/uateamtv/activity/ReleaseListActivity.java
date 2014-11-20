@@ -19,7 +19,7 @@ public class ReleaseListActivity extends BaseChildActivity {
         setContentView(R.layout.empty_frame);
         Fragment fragment = getFragmentManager().findFragmentById(R.id.container);
         if (fragment == null) {
-            getFragmentManager().beginTransaction().replace(R.id.container, ReleaseListFragment.create(getIntent().getStringExtra(ReleaseListFragment.KEY_LINK))).commit();
+            getFragmentManager().beginTransaction().replace(R.id.container, ReleaseListFragment.create(getLink(this))).commit();
         }
     }
 }

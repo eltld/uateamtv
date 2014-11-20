@@ -26,6 +26,10 @@ public class ListAdapter<Item extends Link> extends BaseAdapter {
 
     public void reload(List<Item> items) {
         this.items.clear();
+        add(items);
+    }
+
+    public void add(List<Item> items) {
         this.items.addAll(items);
         notifyDataSetChanged();
     }

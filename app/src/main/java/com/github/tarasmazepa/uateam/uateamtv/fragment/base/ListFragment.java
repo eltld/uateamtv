@@ -67,15 +67,13 @@ public abstract class ListFragment<Item extends Link> extends BaseFragment {
     }
 
     protected void onItemClicked(Item item) {
-        ReleaseActivity.start(getActivity(), item.link, item.title, getActivity().getIntent().getStringExtra(BaseChildActivity.KEY_TITLE));
+        ReleaseActivity.start(getActivity(), item.link, item.title, BaseChildActivity.getTitle(getActivity()));
     }
 
     protected void onFinishLoading(Result<List<Item>> result) {
         onFinishLoading(result.success);
         if (result.success) {
             adapter.reload(result.data);
-        } else {
-            Log.d(getClass().getSimpleName(), result.toString());
         }
     }
 }

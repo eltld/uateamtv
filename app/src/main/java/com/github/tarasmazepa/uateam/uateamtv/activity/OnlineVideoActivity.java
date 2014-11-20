@@ -49,7 +49,7 @@ public class OnlineVideoActivity extends BaseChildActivity {
         final View controlsView = findViewById(R.id.video_controls);
         seekBar = (SeekBar) findViewById(R.id.video_progress);
         videoView = (VideoView) findViewById(R.id.video_view);
-        videoView.setVideoURI(Uri.parse(getIntent().getStringExtra(KEY_LINK)));
+        videoView.setVideoURI(Uri.parse(BaseChildActivity.getLink(this)));
         videoView.start();
 
         timer = new Timer();
@@ -170,7 +170,7 @@ public class OnlineVideoActivity extends BaseChildActivity {
         switch (item.getItemId()) {
             case R.id.action_watch_in_other_app:
                 analytics.actionGeneral(Analytics.Action.WATCH_VIDEO_OTHER_APP);
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getIntent().getStringExtra(KEY_LINK))));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(BaseChildActivity.getLink(this))));
                 return true;
         }
         return super.onOptionsItemSelected(item);

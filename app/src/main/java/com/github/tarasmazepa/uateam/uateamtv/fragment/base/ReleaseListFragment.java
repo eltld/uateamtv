@@ -1,6 +1,8 @@
 package com.github.tarasmazepa.uateam.uateamtv.fragment.base;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AbsListView;
 
 import com.github.tarasmazepa.uateam.uateamtv.analytics.Analytics;
 import com.github.tarasmazepa.uateam.uateamtv.base.Result;
@@ -13,6 +15,7 @@ import java.util.List;
 
 public class ReleaseListFragment extends LinkListFragment {
     public static final String KEY_LINK = "link";
+    private static final int LOAD_MORE_STEP = 20;
 
     public static ReleaseListFragment create(String link) {
         return create(new ReleaseListFragment(), link, 0);
@@ -25,12 +28,17 @@ public class ReleaseListFragment extends LinkListFragment {
         return Fragments.setArguments(fragment, bundle);
     }
 
+    private String link;
+    private int loadMoreIndex = LOAD_MORE_STEP;
+    private boolean loadingMore;
+    private boolean canLoadMore = true;
+
     @Override
     protected void loadResult() {
         new ResultTask<Void, Void, List<Link>>() {
             @Override
             protected List<Link> produceData(Void... voids) throws Throwable {
-                return transformToLinks(Uateamtv.page(getArguments().getString(KEY_LINK)).select(Uateamtv.SELECT));
+                return transformToLinks(Uateamtv.page(link).select(Uateamtv.SELECT));
             }
 
             @Override
@@ -47,6 +55,45 @@ public class ReleaseListFragment extends LinkListFragment {
 
     @Override
     protected String getUrl() {
-        return getArguments().getString(KEY_LINK);
+        return link;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        link = getArguments().getString(KEY_LINK);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (canLoadMore && !loadingMore && firstVisibleItem + visibleItemCount == totalItemCount && adapter.getCount() > LOAD_MORE_STEP / 2) {
+                    loadingMore = true;
+                    new ResultTask<Void, Void, List<Link>>() {
+                        @Override
+                        protected List<Link> produceData(Void... voids) throws Throwable {
+                            return transformToLinks(Uateamtv.page(link + "?start=" + loadMoreIndex).select(Uateamtv.SELECT));
+                        }
+
+                        @Override
+                        protected void onPostExecute(Result<List<Link>> result) {
+                            if (result.success) {
+                                loadMoreIndex += LOAD_MORE_STEP;
+                                adapter.add(result.data);
+                                canLoadMore = !result.data.isEmpty();
+                            }
+                            loadingMore = false;
+                        }
+                    }.execute();
+                }
+            }
+        });
     }
 }

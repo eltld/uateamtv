@@ -3,7 +3,6 @@ package com.github.tarasmazepa.uateam.uateamtv.fragment.base;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,9 @@ public abstract class ListFragment<Item extends Link> extends BaseFragment {
     protected RecyclerView recyclerView;
     protected RecyclerView.Adapter<FindViewHolder> viewHolderAdapter;
 
-    protected abstract ViewFiller<Item> getViewFiller();
+    protected ViewFiller<Item> getViewFiller() {
+        return new ViewFiller<Item>();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -15,8 +15,6 @@ public class Uateamtv {
 
     public static final int timeout = 12000;
 
-    public static final String SELECT = "div#ja-content table.adminlist tbody td:eq(1) a";
-
     public static boolean isAbsoluteUrl(String url) {
         return url.startsWith(HOME);
     }

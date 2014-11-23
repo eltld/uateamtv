@@ -119,6 +119,7 @@ public class ReleaseListFragment extends ListFragment<Link> {
                     new ResultTask<Void, Void, List<Link>>() {
                         @Override
                         protected List<Link> produceData(Void... voids) throws Throwable {
+                            analytics.actionGeneral(Analytics.Action.LOAD_MORE);
                             return loadLinkList(link + "?start=" + loadMoreIndex);
                         }
 

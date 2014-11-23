@@ -25,7 +25,8 @@ public class Analytics {
 
     public enum Action {
         WATCH_VIDEO_OTHER_APP("Watch video other application"), OPEN_IN_BROWSER("Open in browser"),
-        SUPPORT("Support"), REFRESH("Refresh"), EMAIL_DEVELOPER("Email developer");
+        SUPPORT("Support"), REFRESH("Refresh"), EMAIL_DEVELOPER("Email developer"),
+        LOAD_MORE("Load more");
         public final String name;
 
         private Action(String name) {
